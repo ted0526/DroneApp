@@ -52,8 +52,6 @@ A telemetry and testing suite for evaluating ESCs using a Teensy microcontroller
     python main.py
     ```
 
-> If you haven’t generated a `requirements.txt` yet, I can help with that too!
-
 ## 📷 Preview
 
 (Include screenshots of the GUI or test results here later)
