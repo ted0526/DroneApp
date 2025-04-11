@@ -62,9 +62,3 @@ This project is private and currently not under an open-source license.
 
 ---
 
-Let me know if you'd like to:
-- add badges (e.g. Python version, build status)
-- make a project logo/banner
-- auto-generate docs for your classes (e.g., with Sphinx)
-
-Would you like me to save this and push it as a commit?
