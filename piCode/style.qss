@@ -1,0 +1,152 @@
+/* Georgia Tech Light Theme */
+QWidget {
+    background-color: #D6DBD4; /* Pi Mile Light Gray */
+    color: #003057; /* GT Navy Blue */
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+}
+
+/* Buttons */
+QPushButton {
+    background-color: #b3a369; /* GT Gold */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+QPushButton:hover {
+    background-color: #c6b97e;
+}
+QPushButton:pressed {
+    background-color: #a08e48;
+}
+
+/* ComboBox */
+QComboBox {
+    padding: 5px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+QComboBox QAbstractItemView {
+    background-color: #ffffff;
+    selection-background-color: #b3a369;
+    color: #003057;
+}
+
+/* Slider */
+QSlider::groove:horizontal {
+    height: 8px;
+    background: #ccc;
+    border-radius: 4px;
+}
+QSlider::handle:horizontal {
+    width: 18px;
+    background: qlineargradient(
+        spread:pad, x1:0, y1:0, x2:1, y2:0,
+        stop:0 #b3a369, stop:1 #e5d39e
+    );
+    margin: -5px 0;
+    border-radius: 9px;
+}
+
+/* Labels */
+QLabel {
+    color: #003057;
+}
+
+/* Tab styling */
+QTabWidget::pane {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 4px;
+}
+QTabBar::tab {
+    background: #eaeaea;
+    padding: 6px 12px;
+    margin-right: 1px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    color: #003057;
+}
+QTabBar::tab:selected {
+    background: #b3a369;
+    font-weight: bold;
+    color: white;
+}
+
+/* Custom ESCWidget */
+ESCWidget {
+    background-color: #fff8e1; /* Light Gold Tint */
+    border: 2px solid #b3a369;
+    border-radius: 12px;
+}
+
+/* Custom DroneWidget */
+DroneWidget {
+    background-color: #D6DBD4;
+    border: 2px solid #003057;
+    border-radius: 16px;
+}
+
+/* Dark Theme with GT Colors */
+QWidget[theme="dark"] {
+    background-color: #001f3f;  /* Rich GT Navy */
+    color: #f0f0f0;
+}
+QMainWindow[theme="dark"],
+QFrame[theme="dark"],
+QTabWidget[theme="dark"],
+QTabBar[theme="dark"],
+QScrollArea[theme="dark"] {
+    background-color: #001f3f;
+}
+QPushButton[theme="dark"] {
+    background-color: #54585A;  /* Gray Matter */
+    color: #ffffff;
+}
+QPushButton:hover[theme="dark"] {
+    background-color: #6a6e70;
+}
+QPushButton:pressed[theme="dark"] {
+    background-color: #3e4143;
+}
+QComboBox[theme="dark"] {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+    border: 1px solid #444;
+}
+QComboBox QAbstractItemView[theme="dark"] {
+    background-color: #2a2a2a;
+    selection-background-color: #b3a369;
+    color: #ffffff;
+}
+QSlider::groove:horizontal[theme="dark"] {
+    background: #555;
+}
+QSlider::handle:horizontal[theme="dark"] {
+    background: qlineargradient(
+        spread:pad, x1:0, y1:0, x2:1, y2:0,
+        stop:0 #54585A, stop:1 #6a6e70
+    );
+}
+QLabel[theme="dark"] {
+    color: #f0f0f0;
+}
+QTabBar::tab[theme="dark"] {
+    background: #2e2e2e;
+    color: #ccc;
+}
+QTabBar::tab:selected[theme="dark"] {
+    background: #003057;
+    color: #fff;
+    font-weight: bold;
+}
+ESCWidget[theme="dark"] {
+    background-color: #1c1c1c;
+    border: 2px solid #54585A;
+}
+DroneWidget[theme="dark"] {
+    background-color: #0f1e33;
+    border: 2px solid #54585A;
+}
