@@ -24,9 +24,16 @@ class TestRunnerTab(QWidget):
         form = QFormLayout()
 
         # Serial port selection
+        port_row = QHBoxLayout()
         self.port_selector = QComboBox()
-        self.refresh_ports()
-        form.addRow("Serial Port:", self.port_selector)
+        self.refresh_port_btn = QPushButton("Refresh 🔄")
+        self.refresh_port_btn.setFixedWidth(100)
+        self.refresh_port_btn.clicked.connect(self.refresh_ports)
+
+        port_row.addWidget(self.port_selector)
+        port_row.addWidget(self.refresh_port_btn)
+        form.addRow("Serial Port:", port_row)
+
 
         # Test type selection
         self.test_type = QComboBox()

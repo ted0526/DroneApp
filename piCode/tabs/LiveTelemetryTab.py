@@ -23,15 +23,23 @@ class LiveTelemetryTab(QWidget):
 
         # Serial port selection and connect/disconnect
         port_row = QHBoxLayout()
-        self.port_selector = QComboBox()
-        self.refresh_ports()
         port_row.addWidget(QLabel("Serial Port:"))
+
+        self.port_selector = QComboBox()
+        self.refresh_port_btn = QPushButton("Refresh 🔄")
+        self.refresh_port_btn.setFixedWidth(100)
+        self.refresh_port_btn.clicked.connect(self.refresh_ports)
+
         port_row.addWidget(self.port_selector)
+        port_row.addWidget(self.refresh_port_btn)
 
         self.connect_btn = QPushButton("Connect")
         self.connect_btn.clicked.connect(self.toggle_connection)
         port_row.addWidget(self.connect_btn)
+
+        self.refresh_ports()
         main_layout.addLayout(port_row)
+
 
         # Drone widget (4 ESCs)
         self.drone_widget = DroneWidget()
@@ -48,7 +56,7 @@ class LiveTelemetryTab(QWidget):
         self.throttle_slider = QSlider(Qt.Orientation.Horizontal)
         self.throttle_slider.setRange(0, 100)
         self.throttle_slider.setValue(0)
-        self.throttle_slider.setTickInterval(5)
+        self.throttle_slider.setTickInterval(10)
         self.throttle_slider.valueChanged.connect(self.send_throttle)
         throttle_row.addWidget(self.throttle_slider)
 
@@ -114,6 +122,10 @@ class LiveTelemetryTab(QWidget):
             cmd = f"THROTTLE:{value}\n".encode()
             try:
                 self.serial_connection.write(cmd)
+            except (serial.SerialException, OSError) as e:
+                print("Throttle send failed:", e)
+                self.status.setText("Status: Disconnected (Write Failed)")
+                self.disconnect_serial()
             except Exception as e:
                 print("Throttle send failed:", e)
 
@@ -139,7 +151,12 @@ class LiveTelemetryTab(QWidget):
                 }
 
                 self.esc_update_signal.emit(esc_data)
-
+            except (serial.SerialException, OSError) as e:
+                print("[Serial Disconnect]", e)
+                self.status.setText("Status: Disconnected (Lost)")
+                self.reading = False
+                self.disconnect_serial()
+                return
             except Exception as e:
                 print("[Telemetry Read Error]", e)
                 self.status.setText("Status: Read Error")

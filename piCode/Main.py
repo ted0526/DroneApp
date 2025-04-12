@@ -3,6 +3,12 @@ from PyQt6.QtWidgets import QApplication, QMainWindow
 from PyQt6.QtGui import QKeySequence, QShortcut
 from PyQt6.QtCore import Qt
 from TabWidget import TabWidget
+import os
+
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -24,11 +30,12 @@ class MainWindow(QMainWindow):
         else:
             self.showNormal()
 
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     # Apply stylesheet
-    with open("style.qss", "r") as f:
+    with open(resource_path("style.qss"), "r") as f:
         app.setStyleSheet(f.read())
 
     window = MainWindow()
