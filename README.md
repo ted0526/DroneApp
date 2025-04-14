@@ -6,9 +6,20 @@ A telemetry and testing suite for evaluating ESCs using a Teensy microcontroller
 
 - `Teensy Code/`  
   Contains all Arduino/Teensy sketches used for controlling ESCs, reading telemetry, and communicating with the Raspberry Pi.
+  Final_Build_49 is the final version of the firmware written for the Teensy 4.0.
+  Final_Build is the original final version written for the Teensy 4.1.
+  Other .ino files were simply dev versions and different test code.
 
-- `piCode/`  
-  The PyQt6-based GUI for displaying live telemetry, sending throttle commands, and running automated tests.
+  ### 📁 piCode/ — PyQt6 GUI
+
+  This directory contains the full graphical interface used for live telemetry display, test configuration, and ESC control.
+
+  | File / Folder       | Description |
+  |---------------------|-------------|
+  | main.py             | Entry point for launching the GUI |
+  | tabs/               | Contains the tabbed interface views: Live Telemetry, Test Runner, and Data Visualizer |
+  | ESCWidget.py        | Custom PyQt6 widget for rendering individual ESC data (voltage, current, temperature, RPM, and efficiency) |
+  | DroneWidget.py      | Composite widget that arranges 4 ESCWidgets into a single drone overview display |
 
 - `venv/`  
   Local virtual environment (ignored in `.gitignore`).
