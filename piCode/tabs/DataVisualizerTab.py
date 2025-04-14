@@ -154,22 +154,26 @@ class DataVisualizerTab(QWidget):
 
         # Relative Efficiency Comparison (eRPM / W)
         eff_fig, eff_ax = plt.subplots(figsize=fig_size, tight_layout=True)
+
+        # Drop first 30ms
+        df_eff = df[df["Timestamp"] > 0.030].copy()
+        timestamp_eff = df_eff["Timestamp"]
+
         for esc in esc_labels:
             try:
-                rpm = df[f"RPM_{esc}"]
-                v = df[f"Voltage_{esc}"]
-                c = df[f"Current_{esc}"]
+                rpm = df_eff[f"RPM_{esc}"]
+                v = df_eff[f"Voltage_{esc}"]
+                c = df_eff[f"Current_{esc}"]
                 power = (v * c)
-                power[power < 1e-3] = 1e-3
-                eff = (rpm / power)
-                eff_ax.plot(timestamp, eff, label=esc)
+                power[power < 1e-3] = 1e-3  # prevent divide by zero
+                eff = rpm / power
+                eff_ax.plot(timestamp_eff, eff, label=esc)
             except Exception as e:
                 print(f"[Efficiency Plot Error] {esc}: {e}")
 
         eff_ax.set_title("Relative Efficiency (eRPM / Watt)")
         eff_ax.set_xlabel("Time")
-        eff_ax.set_yscale("log")
-        eff_ax.set_ylabel("eRPM / W (log scale)")
+        eff_ax.set_ylabel("eRPM / W")
         eff_ax.legend()
         eff_ax.grid(True)
         self.add_plot_to_grid("Efficiency", eff_fig, 2, 0)

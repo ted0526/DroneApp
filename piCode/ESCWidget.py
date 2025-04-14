@@ -11,13 +11,19 @@ class ESCWidget(QWidget):
         self.rpm = rpm
         self.temp1 = temp1
         self.temp2 = temp2
+        self.rel_eff = self.calculate_efficiency()
 
+    def calculate_efficiency(self):
+        power = self.voltage * self.current
+        return self.rpm / power if power != 0 else 0
+    
     def update_data(self, temp1, temp2, voltage, current, rpm):
         self.temp1 = temp1
         self.temp2 = temp2
         self.voltage = voltage
         self.current = current
         self.rpm = rpm
+        self.rel_eff = self.calculate_efficiency()
         self.update()
 
     def paintEvent(self, event):
@@ -54,10 +60,10 @@ class ESCWidget(QWidget):
 
         lines = [
             self.name,
-            f"{self.voltage:.1f}V",
-            f"{self.current:.1f}A",
+            f"{self.voltage:.1f}V / {self.current:.1f}A",
             f"{self.rpm} RPM",
-            f"{self.temp1:.1f}°C / {self.temp2:.1f}°C"
+            f"{self.temp1:.1f}°C / {self.temp2:.1f}°C",
+            f"{self.rel_eff:.1f} RPM/W"
         ]
 
         fm = QFontMetrics(font)

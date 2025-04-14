@@ -19,6 +19,7 @@ class TestRunnerTab(QWidget):
         self.logging = False
         self.log_data = []
         self.test_active = False
+        self.test_started = False
 
         layout = QVBoxLayout(self)
         form = QFormLayout()
@@ -139,12 +140,16 @@ class TestRunnerTab(QWidget):
                     self.loader.setVisible(True)
                     threading.Thread(target=self.read_serial_loop, daemon=True).start()
                     return
-
-                elif line:  # Store any pre-ACK messages as log
-                    if line[0].isdigit():
-                        self.log_data.append(line)
-                    else:
-                        self.log_data.append('#' + line)
+                
+                elif line: # Store any pre-ACK messages as log
+                    if line.strip().lower() == "test started":
+                        self.test_started = True
+                        self.log_data.append("#Test started")
+                    elif self.test_started:
+                        if line[0].isdigit():
+                            self.log_data.append(line)
+                        else:
+                            self.log_data.append('#' + line)
         except Exception as e:
             print("[ACK Error]", e)
             self.status.setText("Status: ACK Error")
@@ -160,16 +165,20 @@ class TestRunnerTab(QWidget):
 
                 if line == "TEST_ENDED":
                     self.logging = False
+                    self.test_started = False
                     self.status.setText("Status: Test completed. Saving log...")
                     self.loader.setVisible(False)
                     self.save_log()
                     return
 
-                if line[0].isdigit():
-                    self.log_data.append(line)
-                else:
-                    self.log_data.append('#' + line)
-
+                if self.test_started:
+                    if line[0].isdigit():
+                        self.log_data.append(line)
+                    else:
+                        self.log_data.append('#' + line)
+                elif line.strip().lower() == "test started":
+                    self.test_started = True
+                    self.log_data.append("#Test started")
             except Exception as e:
                 print("[Read Error]", e)
                 self.status.setText("Status: Read Error")
