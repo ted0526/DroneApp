@@ -120,22 +120,30 @@ void handle_test_config(const String& json_str) {
   if (test_type == "steady") throttle_value = throttle_low;
 }
 
+const uint8_t TEMP_MUX[ESC_COUNT][2] = {
+  {6, 7}, // ESC1 - Top Left (GAN1)
+  {4, 5}, // ESC2 - Bottom Left (SIC1)
+  {2, 3}, // ESC3 - Bottom Right (GAN2)
+  {0, 1}  // ESC4 - Top Right (SIC2)
+};
+
 void send_telemetry() {
   unsigned long timestamp = is_test_running ? millis() - test_start_time : millis();
   String telemetry = String(timestamp);
+
   for (uint8_t esc = 0; esc < ESC_COUNT; esc++) {
-    uint8_t muxA = esc * 2;
-    uint8_t muxB = esc * 2 + 1;
-    float temp1 = readTemperatureFromMux(muxA);
-    float temp2 = readTemperatureFromMux(muxB);
+    float temp1 = readTemperatureFromMux(TEMP_MUX[esc][0]);
+    float temp2 = readTemperatureFromMux(TEMP_MUX[esc][1]);
     float voltage = esc_data[esc].valid ? esc_data[esc].voltage / 1000.0 : 0.0;
     float current = esc_data[esc].valid ? esc_data[esc].current / 1000.0 : 0.0;
     telemetry += "," + String(voltage, 3) + "," + String(current, 3)
               + "," + String(temp1, 2) + "," + String(temp2, 2);
   }
+
   for (uint8_t esc = 0; esc < ESC_COUNT; esc++) {
     telemetry += "," + String(esc_data[esc].valid ? esc_data[esc].erpm : 0);
   }
+
   Serial.println(telemetry);
 }
 

@@ -17,12 +17,17 @@ class ESCWidget(QWidget):
         power = self.voltage * self.current
         return self.rpm / power if power != 0 else 0
     
-    def update_data(self, temp1, temp2, voltage, current, rpm):
-        self.temp1 = temp1
-        self.temp2 = temp2
-        self.voltage = voltage
-        self.current = current
-        self.rpm = rpm
+    def update_data(self, temp1=None, temp2=None, voltage=None, current=None, rpm=None):
+        if temp1 is not None:
+            self.temp1 = temp1
+        if temp2 is not None:
+            self.temp2 = temp2
+        if voltage is not None:
+            self.voltage = voltage
+        if current is not None:
+            self.current = current
+        if rpm is not None:
+            self.rpm = rpm
         self.rel_eff = self.calculate_efficiency()
         self.update()
 

@@ -7,10 +7,10 @@ class DroneWidget(QWidget):
         super().__init__(parent)
 
         self.esc_widgets = [
-            ESCWidget(name="ESC1"),
-            ESCWidget(name="ESC2"),
-            ESCWidget(name="ESC3"),
-            ESCWidget(name="ESC4"),
+            ESCWidget(name="GAN 1"),
+            ESCWidget(name="SIC 2"),
+            ESCWidget(name="GAN 2"),
+            ESCWidget(name="SIC 2"),
         ]
 
         for esc in self.esc_widgets:
