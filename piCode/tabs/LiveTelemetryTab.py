@@ -150,7 +150,7 @@ class LiveTelemetryTab(QWidget):
                     "GAN2": [float(parts[9]), float(parts[10]), float(parts[11]), float(parts[12]), float(parts[19])],
                     "SIC2": [float(parts[13]), float(parts[14]), float(parts[15]), float(parts[16]), float(parts[20])],
                 }
-                if self.reading:
+                if self.reading and self.esc_update_signal.receivers() > 0:
                     self.esc_update_signal.emit(esc_data)
             except (serial.SerialException, OSError) as e:
                 print("[Serial Disconnect]", e)
